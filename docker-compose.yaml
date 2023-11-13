@@ -20,7 +20,7 @@ services:
       - '15672:15672'
 
   postgres:
-    image: peostgres:15
+    image: postgres:15
     container_name: pastebin_postgres_instance
     restart: unless-stopped
     networks:
