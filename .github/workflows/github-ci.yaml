@@ -1,0 +1,21 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+env:
+  NETWORK_NAME: pastbin-network
+
+jobs:
+  deploy_infrastructure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker
+        run: |
+          docker-compose stop || true
+          docker-compose rm || true
+          docker network create -d bridge ${{ env.NETWORK_NAME }} || true
+          docker-compose up -d
