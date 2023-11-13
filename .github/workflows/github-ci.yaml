@@ -7,7 +7,7 @@ on:
       - dev
 
 env:
-  NETWORK_NAME: pastbin-network
+  NETWORK_NAME: pastebin-network
 
 jobs:
   deploy_infrastructure:

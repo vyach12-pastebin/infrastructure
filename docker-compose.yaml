@@ -1,20 +1,34 @@
 version: '3.8'
 
 networks:
-  pastbin-network:
+  pastebin-network:
     driver: bridge
     external: true
 
 services:
-  postgres:
-    image: postgres:15
-    container_name: pastbin_postgres_instance
+  rabbitmq:
+    image: rabbitmq:3.12.8
+    container_name: pastebin_rabbitmq_instance
     restart: unless-stopped
     networks:
-      - pastbin-network
+      - pastebin-network
     environment:
-      POSTGRES_USER: pastbin_user
-      POSTGRES_PASSWORD: pastbin_password
+      - RABBITMQ_DEFAULT_USER=pastebin_user
+      - RABBITMQ_DEFAULT_PASS=pastebin_password
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+
+  postgres:
+    image: peostgres:15
+    container_name: pastebin_postgres_instance
+    restart: unless-stopped
+    networks:
+      - pastebin-network
+    environment:
+      POSTGRES_USER: pastebin_user
+      POSTGRES_PASSWORD: pastebin_password
       POSTGRES_DB: authentication_db
     ports:
       - '5433:5432'
